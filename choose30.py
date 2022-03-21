@@ -7,12 +7,14 @@ if len(sys.argv) < 2:
 
 sFname = sys.argv[1]
 oInfile = open(sFname, "r")
-oOutfile1 = open(sFname + ".1", "w")
-oOutfile2 = open(sFname + ".2", "w")
-
+if "txt" in sFname:
+    oOutfile1 = open(sFname.replace("txt", "1.txt"), "w")
+    oOutfile2 = open(sFname.replace("txt", "2.txt"), "w")
+else:
+    raise Exception("we need to have a txt file")
 
 for sLine in oInfile:
-    nFile = random.randint(0,3)
+    nFile = random.randint(0,2)
     if nFile == 0:
         oOutfile1.write(sLine)
     elif nFile == 1:
