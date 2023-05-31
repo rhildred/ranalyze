@@ -45,7 +45,7 @@ r = re.compile(r"(\d+-\d+)")
 
 # Run the diff analysis to look for copied assignments
 print("\nResults:\n")
-items = html_content.items()
+items = list(html_content.items())
 for a in range(0, len(items)-1):
     for b in range(a+1, len(items)):
         diff = difflib.SequenceMatcher(a=items[a][1].splitlines(1), b=items[b][1].splitlines(1))
