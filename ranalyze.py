@@ -31,9 +31,9 @@ print("Scanning Files:")
 nFinds = 0
 first = True
 for root, dirs, filenames in os.walk(".", topdown=True):
-    dirs[:] = [d for d in dirs if d not in ["node_modules"]]
+    dirs[:] = [d for d in dirs if d not in ["node_modules", "__MACOSX", ".vscode"]]
     for filename in filenames: 
-        if ".js" in filename and ".json" not in filename and "index.js" not in filename and "registerServiceWorker.js" not in filename and "HST.js" not in filename and "webpack.config.js" not in filename:
+        if ".zip" not in filename and ".mp4" not in filename and ".mkv" not in filename:
             full_filename = os.path.join(root,filename)
             nFinds += 1
             process_html_file(full_filename, filename, first)
