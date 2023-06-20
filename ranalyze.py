@@ -31,9 +31,9 @@ print("Scanning Files:")
 nFinds = 0
 first = True
 for root, dirs, filenames in os.walk(".", topdown=True):
-    dirs[:] = [d for d in dirs if d not in ["node_modules", "__MACOSX", ".vscode"]]
+    dirs[:] = [d for d in dirs if d not in ["node_modules", "__MACOSX", ".vscode", "bin", "obj"]]
     for filename in filenames: 
-        if ".zip" not in filename and ".mp4" not in filename and ".mkv" not in filename:
+        if ".zip" not in filename and ".mp4" not in filename and ".mkv" not in filename and ".m4a" not in filename and ".mov" not in filename:
             full_filename = os.path.join(root,filename)
             nFinds += 1
             process_html_file(full_filename, filename, first)
@@ -51,14 +51,5 @@ for a in range(0, len(items)-1):
         diff = difflib.SequenceMatcher(a=items[a][1].splitlines(1), b=items[b][1].splitlines(1))
         ratio = diff.ratio()
         # Here we check the threshold, ie 60% is 0.6
-        if ratio > 0.9:
+        if ratio > 0.7:
             print("Similar: {}\n{}\n{}\n".format(ratio*100, items[a][0], items[b][0]))
-            #a_name = r.search(items[a][0]).group(0)
-            #b_name = r.search(items[b][0]).group(0)
-            #html_out_name = "{}.{}.diff.html".format(a_name, b_name)
-            #h_diff = difflib.HtmlDiff()
-            #html_out = h_diff.make_file(items[a][1].splitlines(1), items[b][1].splitlines(1))
-            #with open(html_out_name, 'w') as fh:
-            #    fh.write(html_out)
-            #html_output += "<div style=\"margin-bottom: 1.5em;\"><strong>{}%</strong><br>{}<br>{}<br><a href=\"{}\">View Diff File</a></div>".format(ratio*100, items[a][0], items[b][0], html_out_name)
-
