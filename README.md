@@ -7,5 +7,5 @@ unpack .zips, compare every file to every other file and choose random questions
 
 3. choose30 takes a .txt file obtained from Manage quizzes/View Statistics/Question Details/Export to Excel and chooses questions at random from it.
 
-4. The text file can also be produced by exporting and running stripquestionsfromexpport.js
+4. The text file can also be produced by exporting and running stripquestionsfromexport.js
 
