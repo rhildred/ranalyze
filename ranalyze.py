@@ -54,5 +54,5 @@ for a in range(0, len(items)-1):
         diff = difflib.SequenceMatcher(a=items[a][1].splitlines(1), b=items[b][1].splitlines(1))
         ratio = diff.ratio()
         # Here we check the threshold, ie 60% is 0.6
-        if ratio > 0.7:
+        if ratio > 0.6:
             print("Similar: {}\n{}\n{}\n".format(ratio*100, items[a][0], items[b][0]))
