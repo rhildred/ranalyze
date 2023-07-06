@@ -33,10 +33,13 @@ first = True
 for root, dirs, filenames in os.walk(".", topdown=True):
     dirs[:] = [d for d in dirs if d not in ["node_modules", "__MACOSX", ".vscode", "bin", "obj"]]
     for filename in filenames: 
-        if ".zip" not in filename and ".mp4" not in filename and ".mkv" not in filename and ".m4a" not in filename and ".mov" not in filename and ".webp" not in filename and ".png" not in filename and ".rar" not in filename and ".docx" not in filename:
+        if not re.search("(.zip|.mp4|.mkv|.m4a|.mov|.webp|.png|.rar|.docx|.pdf|.jpg)$", filename.lower()):
             full_filename = os.path.join(root,filename)
             nFinds += 1
-            process_html_file(full_filename, filename, first)
+            try:
+                process_html_file(full_filename, filename, first)
+            except:
+                print(f"exception processing {full_filename}")
             first = False
 
 
