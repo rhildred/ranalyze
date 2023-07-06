@@ -35,12 +35,12 @@ for root, dirs, filenames in os.walk(".", topdown=True):
     for filename in filenames: 
         if not re.search("(.zip|.mp4|.mkv|.m4a|.mov|.webp|.png|.rar|.docx|.pdf|.jpg)$", filename.lower()):
             full_filename = os.path.join(root,filename)
-            nFinds += 1
             try:
                 process_html_file(full_filename, filename, first)
+                nFinds += 1
+                first = False
             except:
                 print(f"exception processing {full_filename}")
-            first = False
 
 
 
