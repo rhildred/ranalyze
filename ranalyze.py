@@ -5,7 +5,7 @@ import re
 import difflib
 import subprocess
 
-prog = re.compile("^[0-9]+\-[0-9]+")
+prog = re.compile("^[0-9]+-[0-9]+")
 
 
 html_content = {}
@@ -33,7 +33,7 @@ first = True
 for root, dirs, filenames in os.walk(".", topdown=True):
     dirs[:] = [d for d in dirs if d not in ["node_modules", "__MACOSX", ".vscode", "bin", "obj", ".git"]]
     for filename in filenames: 
-        if not re.search("(.zip|.mp4|.mkv|.m4a|.mov|.webp|.png|.rar|.docx|.pdf|.jpg|.json|.gitignore|.ds_store)$", filename.lower()):
+        if not re.search("(.zip|.mp4|.mkv|.m4a|.mov|.webp|.png|.rar|.docx|.pdf|.jpg|.json|.gitignore|.ds_store|.sln|.csproj|.config|assemblyinfo.cs|.vsidx|.suo|.pptx|.sqlite|.lock)$", filename.lower()):
             full_filename = os.path.join(root,filename)
             try:
                 process_html_file(full_filename, filename, first)
