@@ -3,6 +3,8 @@
 import os
 import re
 import difflib
+from zipfile import ZipFile
+import glob
 
 prog = re.compile("^[0-9]+-[0-9]+")
 
@@ -23,9 +25,31 @@ def process_html_file(htmlfile, assignment, first):
     with open(htmlfile, 'r') as fh:
         html_content[htmlfile] = fh.read()
 
+#unzip recursively
 
+from zipfile import ZipFile
 
+def unpack_zip(zipfile='', path_from_local=''):
+    filepath = path_from_local+zipfile
+    extract_path = filepath.strip('.zip')+'/'
+    parent_archive = ZipFile(filepath)
+    parent_archive.extractall(extract_path)
+    namelist = parent_archive.namelist()
+    parent_archive.close()
+    for name in namelist:
+        try:
+            if name[-4:] == '.zip':
+                unpack_zip(zipfile=name, path_from_local=extract_path)
+        except:
+            print('failed on', name)
+            pass
+    return extract_path
+    
+    # you can just call this with filename set to the relative path and file.
+parentZip = glob.glob("*.zip")[0]
+unpack_zip(parentZip)
 
+# build files
 print("Scanning Files:")
 nFinds = 0
 first = True
@@ -40,7 +64,6 @@ for root, dirs, filenames in os.walk(".", topdown=True):
                 first = False
             except:
                 print(f"exception processing {full_filename}")
-
 
 
 r = re.compile(r"(\d+-\d+)")
