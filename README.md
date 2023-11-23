@@ -1,11 +1,7 @@
-# couple-of-scripts-for-marking
-unpack .zips, compare every file to every other file and choose random questions for a paper exam
+# couple-of-scripts-for-inperson
+choose random questions for a paper exam
 
-1. toaster unpacks
+1. choose30 takes a .txt file obtained from Manage quizzes/View Statistics/Question Details/Export to Excel and chooses questions at random from it.
 
-2. ranalyze compares every student's file to every other student's file
-
-3. choose30 takes a .txt file obtained from Manage quizzes/View Statistics/Question Details/Export to Excel and chooses questions at random from it.
-
-4. The text file can also be produced by exporting and running stripquestionsfromexport.js
+2. The text file can also be produced by exporting and running stripquestionsfromexport.js
 
