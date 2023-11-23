@@ -3,7 +3,6 @@
 import os
 import re
 import difflib
-import subprocess
 
 prog = re.compile("^[0-9]+-[0-9]+")
 
