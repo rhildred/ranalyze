@@ -27,8 +27,6 @@ def process_html_file(htmlfile, assignment, first):
 
 #unzip recursively
 
-from zipfile import ZipFile
-
 def unpack_zip(zipfile='', path_from_local=''):
     filepath = path_from_local+zipfile
     extract_path = filepath.strip('.zip')+'/'
@@ -46,9 +44,16 @@ def unpack_zip(zipfile='', path_from_local=''):
     return extract_path
     
     # you can just call this with filename set to the relative path and file.
-parentZip = glob.glob("*.zip")[0]
-unpack_zip(parentZip)
-
+try:
+    parentZip = glob.glob("*.zip")[0]
+    print(f"parent zip {parentZip}")
+    sFolder = parentZip.replace(".zip", "")
+    if os.path.isdir(sFolder):
+        print(f"folder {sFolder} exists ... comparing")
+    else:
+        unpack_zip(parentZip)
+except:
+    print("No zip found. Should there be a zip file with files to compare?")
 # build files
 print("Scanning Files:")
 nFinds = 0
