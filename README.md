@@ -19,7 +19,7 @@ Drag and drop a .zip of the files you want to check for common ancestry in to th
 python ranalyze.py > results.txt
 ```
 
-![results.txt](readmeimages/results.txt.png)
+![results.txt](readmeimages/results.png)
 
 `results.txt` will have the probabilities expressed as a percentage that a file had a common ancestor with any other file in the set. Edit this file to remove any common ancestors that can be easily explained. For instance some students will submit assignments more than once.
 
