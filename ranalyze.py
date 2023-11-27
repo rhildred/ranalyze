@@ -61,7 +61,7 @@ first = True
 for root, dirs, filenames in os.walk(".", topdown=True):
     dirs[:] = [d for d in dirs if d not in ["node_modules", "__MACOSX", ".vscode", "bin", "obj", ".git"]]
     for filename in filenames: 
-        if not re.search("(.zip|.mp4|.mkv|.m4a|.mov|.webp|.png|.rar|.docx|.pdf|.jpg|.json|.gitignore|.ds_store|.sln|.csproj|.config|assemblyinfo.cs|.vsidx|.suo|.pptx|.sqlite|.lock)$", filename.lower()):
+        if not re.search("(.zip|.mp4|.mkv|.m4a|.mov|.webp|.png|.rar|.docx|.pdf|.jpg|.json|.gitignore|.ds_store|.sln|.csproj|.config|assemblyinfo.cs|.vsidx|.suo|.pptx|.sqlite|.lock|license|readme.md|sitemap.xml)$", filename.lower()):
             full_filename = os.path.join(root,filename)
             try:
                 process_html_file(full_filename, filename, first)
@@ -77,9 +77,28 @@ r = re.compile(r"(\d+-\d+)")
 print("\nResults:\n")
 items = list(html_content.items())
 for a in range(0, len(items)-1):
+    frequencyHundred = dict()
+    frequencyItem = dict()
     for b in range(a+1, len(items)):
+        if items[b][0] in frequencyItem:
+            frequencyItem[items[b][0]] += 1
+        else:
+            frequencyItem[items[b][0]] = 1
+
         diff = difflib.SequenceMatcher(a=items[a][1].splitlines(1), b=items[b][1].splitlines(1))
         ratio = diff.ratio()
         # Here we check the threshold, ie 60% is 0.6
-        if ratio > 0.6:
+        if ratio == 1:
+            if items[b][0] in frequencyHundred:
+                frequencyHundred[items[b][0]] += 1
+            else:
+                frequencyHundred[items[b][0]] = 1
+        elif ratio > 0.6:
             print("Similar: {}\n{}\n{}\n".format(ratio*100, items[a][0], items[b][0]))
+    for b in range(a+1, len(items)):
+        if items[b][0] in frequencyHundred:
+            percent100s = frequencyHundred[items[b][0]] / frequencyItem[items[b][0]]
+            # for items that match 100% we only look if 1/2 the instances don't match 100%
+            # I am not sure about this approach but it get's rid of boilerplate code
+            if percent100s < .5:
+                print("Similar: {}\n{}\n{}\n".format(100, items[a][0], items[b][0]))
