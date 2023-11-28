@@ -3,9 +3,13 @@ recursively compare every file with every other file and give the probability th
 
 ## Prerequisites
 
+Note 1: I made a video of installing the prerequisites [here](https://youtu.be/5ANEoaO1H8o).
+
 1. vscode
 2. python
 3. git
+
+Note 2: I made a video of using ranalyze [here](https://youtu.be/AjB2SiGlJ20).
 
 To use, open a fresh folder in vscode and open a new terminal
 
