@@ -27,12 +27,12 @@ def process_html_file(htmlfile, assignment, first):
 
 def unpack_zip(zipfile='', path_from_local=''):
     filepath = path_from_local+zipfile
-    extract_path = ""
-    if 'Download' in zipfile:
-        extract_path = re.sub(' Download.*', '', filepath) + '/'
+    extract_path = filepath.strip('.zip').replace(" ", "")
+    if 'Download' in extract_path:
+        extract_path = re.sub('Download.*', '', extract_path)
     else:
-        extract_path = filepath.strip('.zip')+'/'
-        extract_path = re.sub('[0-9]{6}-[0-9]{6} - ', '', extract_path)
+        extract_path = re.sub('[0-9]{6}-[0-9]{6}-', '', extract_path)
+    extract_path += "/"
     parent_archive = ZipFile(filepath)
     parent_archive.extractall(extract_path)
     namelist = parent_archive.namelist()
@@ -49,7 +49,7 @@ def unpack_zip(zipfile='', path_from_local=''):
     # you can just call this with filename set to the relative path and file.
 try:
     parentZip = glob.glob("*.zip")[0]
-    sFolder = re.sub(' Download.*', '', parentZip)
+    sFolder = re.sub(' Download.*', '', parentZip).replace(" ", "")
     if os.path.isdir(sFolder):
         print(f"folder {sFolder} exists ... comparing")
     else:
