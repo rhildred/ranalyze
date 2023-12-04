@@ -6,8 +6,6 @@ import difflib
 from zipfile import ZipFile
 import glob
 
-prog = re.compile("^[0-9]+-[0-9]+")
-
 
 html_content = {}
 
@@ -29,7 +27,12 @@ def process_html_file(htmlfile, assignment, first):
 
 def unpack_zip(zipfile='', path_from_local=''):
     filepath = path_from_local+zipfile
-    extract_path = filepath.strip('.zip')+'/'
+    extract_path = ""
+    if 'Download' in zipfile:
+        extract_path = re.sub(' Download.*', '', filepath) + '/'
+    else:
+        extract_path = filepath.strip('.zip')+'/'
+        extract_path = re.sub('[0-9]{6}-[0-9]{6} - ', '', extract_path)
     parent_archive = ZipFile(filepath)
     parent_archive.extractall(extract_path)
     namelist = parent_archive.namelist()
@@ -47,7 +50,8 @@ def unpack_zip(zipfile='', path_from_local=''):
 try:
     parentZip = glob.glob("*.zip")[0]
     print(f"parent zip {parentZip}")
-    sFolder = parentZip.replace(".zip", "")
+    sFolder = re.sub(' Download.*', '', parentZip)
+    print(f"folder is {sFolder}")
     if os.path.isdir(sFolder):
         print(f"folder {sFolder} exists ... comparing")
     else:
@@ -61,7 +65,7 @@ first = True
 for root, dirs, filenames in os.walk(".", topdown=True):
     dirs[:] = [d for d in dirs if d not in ["node_modules", "__MACOSX", ".vscode", "bin", "obj", ".git"]]
     for filename in filenames: 
-        if not re.search("(.zip|.mp4|.mkv|.m4a|.mov|.webp|.png|.rar|.docx|.pdf|.jpg|.json|.gitignore|.ds_store|.sln|.csproj|.config|assemblyinfo.cs|.vsidx|.suo|.pptx|.sqlite|.lock|license|readme.md|sitemap.xml)$", filename.lower()):
+        if not re.search("(.zip|.mp4|.mkv|.m4a|.mov|.webp|.png|.rar|.docx|.pdf|.jpg|.json|.gitignore|.ds_store|.sln|.csproj|.config|assemblyinfo.cs|.vsidx|.suo|.pptx|.sqlite|.lock|license|readme.md|sitemap.xml|.xlsx)$", filename.lower()):
             full_filename = os.path.join(root,filename)
             try:
                 process_html_file(full_filename, filename, first)
