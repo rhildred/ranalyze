@@ -49,9 +49,7 @@ def unpack_zip(zipfile='', path_from_local=''):
     # you can just call this with filename set to the relative path and file.
 try:
     parentZip = glob.glob("*.zip")[0]
-    print(f"parent zip {parentZip}")
     sFolder = re.sub(' Download.*', '', parentZip)
-    print(f"folder is {sFolder}")
     if os.path.isdir(sFolder):
         print(f"folder {sFolder} exists ... comparing")
     else:
@@ -59,7 +57,6 @@ try:
 except:
     print("No zip found. Should there be a zip file with files to compare?")
 # build files
-print("Scanning Files:")
 nFinds = 0
 first = True
 for root, dirs, filenames in os.walk(".", topdown=True):
