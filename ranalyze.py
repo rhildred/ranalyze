@@ -28,10 +28,8 @@ def process_html_file(htmlfile, assignment, first):
 def unpack_zip(zipfile='', path_from_local=''):
     filepath = path_from_local+zipfile
     extract_path = filepath.strip('.zip').replace(" ", "")
-    if 'Download' in extract_path:
-        extract_path = re.sub('Download.*', '', extract_path)
-    else:
-        extract_path = re.sub('[0-9]{6}-[0-9]{6}-', '', extract_path)
+    extract_path = re.sub('Download.*', '', extract_path)
+    extract_path = re.sub('\d+-\d+[ -]+', '', extract_path)
     extract_path += "/"
     parent_archive = ZipFile(filepath)
     parent_archive.extractall(extract_path)
