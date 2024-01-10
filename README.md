@@ -37,4 +37,4 @@ The files will appear side by side. The differences will be color coded. The use
 
 ![differences](readmeimages/diff.png)
 
-ranalyze is meant as a tool to highlight files that need further interpretation. Examining the diff is the only way to know if files truly had the same ancestor. Please create an issue if you have one, but also if you would like to communicate further about this.
+ranalyze is meant as a tool to highlight files that need further interpretation. Examining the diff is the only way to know if files truly had the same ancestor. Please create an issue if you have one. I also added discussions to this repository if you would like to communicate further about this but don't have a specific issue.
