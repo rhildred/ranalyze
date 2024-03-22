@@ -29,7 +29,7 @@ def unpack_zip(zipfile='', path_from_local=''):
     filepath = path_from_local+zipfile
     extract_path = filepath.strip('.zip').replace(" ", "")
     extract_path = re.sub('Download.*', '', extract_path)
-    extract_path = re.sub('\d+-\d+[ -]+', '', extract_path)
+    extract_path = re.sub('\\d+-\\d+[ -]+', '', extract_path)
     extract_path += "/"
     parent_archive = ZipFile(filepath)
     parent_archive.extractall(extract_path)
@@ -45,22 +45,19 @@ def unpack_zip(zipfile='', path_from_local=''):
     return extract_path
     
     # you can just call this with filename set to the relative path and file.
-try:
-    parentZip = glob.glob("*.zip")[0]
-    sFolder = re.sub(' Download.*', '', parentZip).replace(" ", "")
-    if os.path.isdir(sFolder):
-        print(f"folder {sFolder} exists ... comparing")
-    else:
-        unpack_zip(parentZip)
-except:
+aZips = glob.glob("*.zip")
+if len(aZips) == 0:
     print("No zip found. Should there be a zip file with files to compare?")
+else:
+    for parentZip in aZips:
+        unpack_zip(parentZip)
 # build files
 nFinds = 0
 first = True
 for root, dirs, filenames in os.walk(".", topdown=True):
     dirs[:] = [d for d in dirs if d not in ["node_modules", "__MACOSX", ".vscode", "bin", "obj", ".git"]]
     for filename in filenames: 
-        if not re.search("(.zip|.mp4|.mkv|.m4a|.mov|.webp|.png|.rar|.docx|.pdf|.jpg|.json|.gitignore|.ds_store|.sln|.csproj|.config|assemblyinfo.cs|.vsidx|.suo|.pptx|.sqlite|.lock|license|readme.md|sitemap.xml|.xlsx)$", filename.lower()):
+        if not re.search("(.zip|.mp4|.mkv|.m4a|.mov|.webp|.png|.rar|.docx|.pdf|.jpg|.json|.gitignore|.ds_store|.sln|.csproj|.config|assemblyinfo.cs|.vsidx|.suo|.pptx|.sqlite|.lock|license|readme.md|sitemap.xml|.xlsx|.bin|dtbcache.v2)$", filename.lower()):
             full_filename = os.path.join(root,filename)
             try:
                 process_html_file(full_filename, filename, first)
