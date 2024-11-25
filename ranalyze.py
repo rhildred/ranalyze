@@ -72,9 +72,9 @@ r = re.compile(r"(\d+-\d+)")
 # Run the diff analysis to look for copied assignments
 print("\nResults:\n")
 items = list(html_content.items())
+frequencyHundred = dict()
+frequencyItem = dict()
 for a in range(0, len(items)-1):
-    frequencyHundred = dict()
-    frequencyItem = dict()
     for b in range(a+1, len(items)):
         if items[b][0] in frequencyItem:
             frequencyItem[items[b][0]] += 1
@@ -84,17 +84,13 @@ for a in range(0, len(items)-1):
         diff = difflib.SequenceMatcher(a=items[a][1].splitlines(1), b=items[b][1].splitlines(1))
         ratio = diff.ratio()
         # Here we check the threshold, ie 60% is 0.6
-        if ratio == 1:
-            if items[b][0] in frequencyHundred:
-                frequencyHundred[items[b][0]] += 1
-            else:
-                frequencyHundred[items[b][0]] = 1
-        elif ratio > 0.6:
-            print("Similar: {}\n{}\n{}\n".format(ratio*100, items[a][0], items[b][0]))
-    for b in range(a+1, len(items)):
-        if items[b][0] in frequencyHundred:
-            percent100s = frequencyHundred[items[b][0]] / frequencyItem[items[b][0]]
-            # for items that match 100% we only look if 1/2 the instances don't match 100%
-            # I am not sure about this approach but it get's rid of boilerplate code
-            if percent100s < .5:
-                print("Similar: {}\n{}\n{}\n".format(100, items[a][0], items[b][0]))
+        if ratio > 0.6:
+            file_a = items[a][0]
+            date_match = r"(Jan|January|Feb|February|Mar|March|Apr|April|May|Jun|June|Jul|July|Aug|August|Sep|September|Oct|October|Nov|November|Dec|December)[\d\s,]*[AP]M"
+            junk_match = r"[\s\-\\\/\.\,_]"
+            file_a_chars = re.sub(junk_match, "", re.sub(date_match, "", file_a))
+            file_b = items[b][0]
+            file_b_chars = re.sub(junk_match, "", re.sub(date_match, "", file_b))
+            name_similarity = difflib.SequenceMatcher(None, file_a_chars, file_b_chars).ratio()
+            if name_similarity != 1:
+                print("Similar: {}\n{}\n{}\n".format(ratio*100, file_a, file_b))
