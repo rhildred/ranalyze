@@ -25,6 +25,13 @@ def process_html_file(htmlfile, assignment, first):
 
 #unzip recursively
 
+#unzip without node_modules
+def extract_without_directory(zip_ref, extract_path, exclude_dir):
+    for member in zip_ref.infolist():
+        if not exclude_dir in member.filename:
+            zip_ref.extract(member, extract_path)
+
+
 def unpack_zip(zipfile='', path_from_local=''):
     filepath = path_from_local+zipfile
     extract_path = filepath.strip('.zip').replace(" ", "")
@@ -32,7 +39,8 @@ def unpack_zip(zipfile='', path_from_local=''):
     extract_path = re.sub('\\d+-\\d+[ -]+', '', extract_path)
     extract_path += "/"
     parent_archive = ZipFile(filepath)
-    parent_archive.extractall(extract_path)
+#    parent_archive.extractall(extract_path)
+    extract_without_directory(parent_archive, extract_path, "node_modules")
     namelist = parent_archive.namelist()
     parent_archive.close()
     for name in namelist:
