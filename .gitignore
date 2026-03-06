@@ -1,4 +1,6 @@
-*txt*
-node_modules
-package-lock.json
-.env
+*
+!README.md
+!LICENSE
+!ranalyze.py
+!.devcontainer
+!readmeimages
